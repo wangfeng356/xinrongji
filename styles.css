@@ -162,3 +162,96 @@ img { display: block; max-width: 100%; }
   0%, 100% { transform: translateX(-50%) translateY(0); }
   50%      { transform: translateX(-50%) translateY(6px); }
 }
+
+/* ══════════════════════════════════════
+   HONORS
+   ══════════════════════════════════════ */
+
+.honors {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: 4rem 1.5rem;
+  background: var(--bg-dark);
+}
+
+.honors-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1rem, 3vw, 2.5rem);
+  max-width: 900px;
+  width: 100%;
+}
+
+.honor-card {
+  text-align: center;
+  padding: 2.5rem 1.5rem;
+  border: 1px solid var(--gold-pale);
+  background: rgba(196, 162, 101, 0.03);
+  transition: transform 0.4s, border-color 0.4s, background 0.4s;
+}
+.honor-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--gold-dim);
+  background: rgba(196, 162, 101, 0.06);
+}
+
+.honor-icon {
+  display: block;
+  font-size: 1.5rem;
+  letter-spacing: 0.15em;
+  color: var(--gold);
+  margin-bottom: 0.75rem;
+}
+
+.honor-value {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 2.2rem;
+  font-weight: 400;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+}
+
+.honor-card h3 {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  color: var(--gold-dim);
+  margin-bottom: 0.5rem;
+}
+
+.honor-card p {
+  font-size: 0.75rem;
+  color: var(--text-faint);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.honor-year {
+  display: inline-block;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--text-faint);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 0.75rem;
+}
+
+/* ── Scroll reveal ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s, transform 0.8s;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 640px) {
+  .honors-grid {
+    grid-template-columns: 1fr;
+  }
+}

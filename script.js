@@ -6,7 +6,7 @@
 
   const video = bg.querySelector('video');
 
-  // ── Lazy load video：不等任何东西，直接开始下载 ──
+  // ── Lazy load video ──
   function loadVideo() {
     if (!video || video.querySelector('source')) return;
     const src = document.createElement('source');
@@ -17,16 +17,10 @@
     video.addEventListener('canplay', () => video.play().catch(() => {}), { once: true });
     setTimeout(() => video.play().catch(() => {}), 2000);
   }
-
-  // 立即开始，不等待任何事件
   loadVideo();
 
-  // ── Also try on first user interaction (backup) ──
-  const tryPlay = () => {
-    if (video) video.play().catch(() => {});
-  };
   ['click', 'touchstart', 'scroll'].forEach(evt => {
-    document.addEventListener(evt, tryPlay, { once: true });
+    document.addEventListener(evt, () => video.play().catch(() => {}), { once: true });
   });
 
   // ── Parallax ──
@@ -39,4 +33,34 @@
   }
   window.addEventListener('scroll', update, { passive: true });
   update();
+})();
+
+/* ── Scroll reveal + number counting ── */
+(function () {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('visible');
+
+      // Number counting animation
+      const counts = entry.target.querySelectorAll('.count');
+      counts.forEach(el => {
+        const target = parseInt(el.dataset.target, 10);
+        if (!target || el.dataset.done) return;
+        el.dataset.done = '1';
+        let current = 0;
+        const step = () => {
+          current += Math.ceil(target / 20);
+          if (current >= target) { el.textContent = target; return; }
+          el.textContent = current;
+          requestAnimationFrame(step);
+        };
+        step();
+      });
+
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: 0.3 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 })();
